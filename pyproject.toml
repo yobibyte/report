@@ -6,4 +6,8 @@ readme = "README.md"
 dependencies = [
   "matplotlib",
   "numpy",
+  "jinja2",
 ]
+
+[project.scripts]
+report = "report.base:main"
