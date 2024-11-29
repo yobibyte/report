@@ -1,0 +1,3 @@
+[DEFAULT]
+REPORTS_SRC_DIR=examples_src
+REPORTS_OUT_DIR=examples_reports

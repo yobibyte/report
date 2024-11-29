@@ -9,9 +9,6 @@ create header blocks
 --------------------
 create text blocks
 --------------------
-make a library config, e.g. default report directory
-make a user-level config, and a project level config
---------------------
 implement saving to html page
 --------------------
 unify all plots, provide a common config

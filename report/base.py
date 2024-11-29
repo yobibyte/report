@@ -3,6 +3,26 @@ from jinja2 import Template
 import argparse
 from datetime import datetime
 import re
+import configparser
+from pathlib import Path
+
+CONFIG_FNAME = ".report"
+REPORTS_SRC_DIR = "reports_code"
+REPORTS_OUT_DIR = "reports"
+
+project_config = Path.joinpath(Path(__file__).resolve().parent.parent, CONFIG_FNAME)
+home_config = Path.joinpath(Path.home(), CONFIG_FNAME)
+config = configparser.ConfigParser()
+if Path.exists(project_config):
+    config.read(project_config)
+    REPORTS_SRC_DIR = config["DEFAULT"].get("REPORTS_SRC_DIR", REPORTS_SRC_DIR)
+    REPORTS_OUT_DIR = config["DEFAULT"].get("REPORTS_OUT_DIR", REPORTS_OUT_DIR)
+elif Path.exists(home_config):
+    config.read(project_config)
+    REPORTS_SRC_DIR = config["DEFAULT"].get("REPORTS_SRC_DIR", REPORTS_SRC_DIR)
+    REPORTS_OUT_DIR = config["DEFAULT"].get("REPORTS_OUT_DIR", REPORTS_OUT_DIR)
+Path(REPORTS_SRC_DIR).mkdir(parents=True, exist_ok=True)
+Path(REPORTS_OUT_DIR).mkdir(parents=True, exist_ok=True)
 
 
 class AbstractReport(ABC):
@@ -56,7 +76,8 @@ def main():
     template = Template(REPORT_TEMPLATE)
     report_code = template.render(title=args.title)
     date = datetime.now().strftime("%Y_%m_%d")
-    with open(f"{date}_{title}.py", "w") as f:
+    out_fpath = Path.joinpath(Path(REPORTS_SRC_DIR), f"{date}_{title}.py")
+    with open(out_fpath, "w") as f:
         f.write(report_code)
 
 
