@@ -1,0 +1,9 @@
+[project]
+name = "report"
+version = "0.0.1"
+description = "yobibyte's reports library"
+readme = "README.md"
+dependencies = [
+  "matplotlib",
+  "numpy",
+]
