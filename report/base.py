@@ -1,4 +1,5 @@
 from abc import ABC, abstractmethod
+from report.block import AbstractBlock
 from jinja2 import Template
 import argparse
 from datetime import datetime
@@ -14,7 +15,7 @@ REPORTS_SRC_DIR, REPORTS_OUT_DIR = get_src_out_dirs()
 class AbstractReport(ABC):
     def __init__(self, title):
         self._title = title
-        self._blocks = ["<h1>HEADER!!!</h1>"]
+        self._blocks = []
         self._html = None
 
     @abstractmethod
@@ -24,6 +25,9 @@ class AbstractReport(ABC):
     @abstractmethod
     def prepare(self):
         pass
+
+    def add_block(self, block: AbstractBlock):
+        self._blocks.append(block)
 
     def compile(self):
         template = Template(HTML_TEMPLATE)
