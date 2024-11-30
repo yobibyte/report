@@ -1,5 +1,5 @@
-import subprocess
 import configparser
+import subprocess
 from pathlib import Path
 
 CONFIG_FNAME = ".report"

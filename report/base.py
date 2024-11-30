@@ -1,12 +1,13 @@
-from abc import ABC, abstractmethod
-from report.block import AbstractBlock
-from jinja2 import Template
 import argparse
+import re
+from abc import ABC, abstractmethod
 from datetime import datetime
 from pathlib import Path
-import re
-from report.template import REPORT_TEMPLATE
-from report.template import HTML_TEMPLATE
+
+from jinja2 import Template
+
+from report.block import AbstractBlock
+from report.template import HTML_TEMPLATE, REPORT_TEMPLATE
 from report.util import get_src_out_dirs
 
 REPORTS_SRC_DIR, REPORTS_OUT_DIR = get_src_out_dirs()

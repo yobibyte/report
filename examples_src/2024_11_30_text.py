@@ -1,5 +1,5 @@
-from report.base import AbstractReport
 from report import block
+from report.base import AbstractReport
 
 
 class Report(AbstractReport):
