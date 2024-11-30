@@ -20,4 +20,4 @@ dependencies = [
 where = ["."]
 
 [project.scripts]
-report = "report.base:main"
+report = "report.base:make_report_template"

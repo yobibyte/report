@@ -1,5 +1,6 @@
 import argparse
 import re
+import shutil
 from abc import ABC, abstractmethod
 from datetime import datetime
 from pathlib import Path
@@ -14,8 +15,13 @@ REPORTS_SRC_DIR, REPORTS_OUT_DIR = get_src_out_dirs()
 
 
 class AbstractReport(ABC):
-    def __init__(self, title):
+    def __init__(self, title, locked=False):
+        if locked:
+            raise ValueError(
+                "Cannot regenerate a locked report. Set locked=True if you want to overwrite."
+            )
         self._title = title
+        self._locked = locked
         self._blocks = []
         self._html = None
 
@@ -38,6 +44,9 @@ class AbstractReport(ABC):
         if not self._html:
             raise ValueError("Cannot save a report that has not been compiled.")
         report_dir = REPORTS_OUT_DIR.joinpath(self._title)
+        if report_dir.exists():
+            # we are here -> it's not locked. Remove the directory.
+            shutil.rmtree(report_dir)
         report_dir.mkdir()
         with open(report_dir.joinpath("report.html"), "w") as f:
             f.write(self._html)
@@ -49,12 +58,17 @@ class AbstractReport(ABC):
         self.save()
 
 
-def main():
+def make_report_template():
     parser = argparse.ArgumentParser(description="Generate a report template.")
     parser.add_argument(
         "title",
         type=str,
         help="Report title",
+    )
+    parser.add_argument(
+        "--overwrite",
+        action="store_true",
+        help="Overwrite report template if exists.",
     )
     args = parser.parse_args()
     title = re.sub(r"[./ ]", "_", args.title)
@@ -62,9 +76,16 @@ def main():
     report_code = template.render(title=title)
     date = datetime.now().strftime("%Y_%m_%d")
     out_fpath = Path.joinpath(Path(REPORTS_SRC_DIR), f"{date}_{title}.py")
+    if out_fpath.exists():
+        if args.overwrite:
+            Path.unlink(out_fpath)
+        else:
+            raise ValueError(
+                f"{out_fpath} already exists. Use --overwrite flag to overwrite."
+            )
     with open(out_fpath, "w") as f:
         f.write(report_code)
 
 
 if __name__ == "__main__":
-    main()
+    make_report_template()
