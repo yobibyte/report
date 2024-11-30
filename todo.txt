@@ -1,13 +1,7 @@
 --------------------
-create blocks interface
---------------------
 create image block
 --------------------
 create table block
---------------------
-create header blocks
---------------------
-create text blocks
 --------------------
 implement saving to html page
 --------------------
