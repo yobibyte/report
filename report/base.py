@@ -28,6 +28,8 @@ Path(REPORTS_OUT_DIR).mkdir(parents=True, exist_ok=True)
 class AbstractReport(ABC):
     def __init__(self, title):
         self._title = title
+        self._blocks = ["<h1>HEADER!!!</h1>"]
+        self._html = None
 
     @abstractmethod
     def load_data(self):
@@ -37,13 +39,20 @@ class AbstractReport(ABC):
     def prepare(self):
         pass
 
+    def compile(self):
+        template = Template(HTML_TEMPLATE)
+        self._html = template.render(title=self._title, blocks=self._blocks)
+
     def save(self):
-        # TODO(yobibyte)
-        pass
+        if not self._html:
+            raise ValueError("Cannot save a report that has not been compiled.")
+        with open(Path(REPORTS_OUT_DIR).joinpath(f"{self._title}.html"), 'w') as f:
+            f.write(self._html)
 
     def generate(self):
         self.load_data()
         self.prepare()
+        self.compile()
         self.save()
 
 
@@ -63,6 +72,21 @@ if __name__ == "__main__":
     report.generate()
 """
 
+HTML_TEMPLATE = """
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title }}</title>
+</head>
+<body>
+    {% for block in blocks %}
+        {{ block }}
+    {% endfor %}
+</body>
+</html>
+"""
+
 
 def main():
     parser = argparse.ArgumentParser(description="Generate a report template.")
@@ -74,7 +98,7 @@ def main():
     args = parser.parse_args()
     title = re.sub(r"[./ ]", "_", args.title)
     template = Template(REPORT_TEMPLATE)
-    report_code = template.render(title=args.title)
+    report_code = template.render(title=title)
     date = datetime.now().strftime("%Y_%m_%d")
     out_fpath = Path.joinpath(Path(REPORTS_SRC_DIR), f"{date}_{title}.py")
     with open(out_fpath, "w") as f:
