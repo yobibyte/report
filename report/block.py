@@ -1,8 +1,11 @@
 from abc import ABC, abstractmethod
 from pathlib import Path
 
-from coolname import generate, generate_slug
+from coolname import generate_slug
+from jinja2 import Template
 from matplotlib.figure import Figure
+
+from report.template import TABLE_TEMPLATE
 
 
 class AbstractBlock(ABC):
@@ -55,9 +58,22 @@ class Fig(AbstractBlock):
     def __str__(self) -> str:
         if not self._fname:
             raise ValueError("You have to save the blocks before compiling a report.")
-        return f"<img src='{self._id}.png'>"
+        return f"<p><img src='{self._id}.png'></p>"
 
     def save(self, dest_dir):
         super().save(dest_dir)
         self._fname = Path(dest_dir).joinpath(f"{self._id}.png")
         self._fig.savefig(self._fname)
+
+
+class Table(AbstractBlock):
+    def __init__(self, rows, header, caption=""):
+        self._rows = rows
+        self._header = header
+        self._caption = caption
+
+    def __str__(self) -> str:
+        template = Template(TABLE_TEMPLATE)
+        return template.render(
+            caption=self._caption, rows=self._rows, header=self._header
+        )

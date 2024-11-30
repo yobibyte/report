@@ -1,4 +1,2 @@
 --------------------
-create table block
---------------------
 unify all plots, provide a common config

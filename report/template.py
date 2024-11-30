@@ -21,6 +21,30 @@ HTML_TEMPLATE = """
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ title }}</title>
+    <style>
+        body {
+            font-family: monospace;
+            background-color: #f4f4f9;
+            padding: 20px;
+        }
+        table {
+            border-collapse: collapse;
+            border-spacing: 0;
+        }
+        th, td {
+            border: 1px solid #000;
+            padding: 2px 5px;
+            text-align: left;
+        }
+        th {
+            font-weight: bold;
+        }
+        caption {
+            margin-bottom: 10px;
+            text-align: left;
+            font-weight: bold;
+        }
+    </style>
 </head>
 <body>
     {% for block in blocks %}
@@ -28,4 +52,28 @@ HTML_TEMPLATE = """
     {% endfor %}
 </body>
 </html>
+"""
+
+TABLE_TEMPLATE = """
+<p>
+<table>
+    <caption>{{ caption }}</caption>
+    <thead>
+        <tr>
+            {% for h in header %}
+                <th>{{ h }}</th>
+            {% endfor %}
+        </tr>
+    </thead>
+    <tbody>
+        {% for r in rows %}
+            <tr>
+            {% for c in r %}
+                <td>{{ c }}</td>
+            {% endfor %}
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+</p>
 """
