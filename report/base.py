@@ -15,15 +15,23 @@ home_config = Path.joinpath(Path.home(), CONFIG_FNAME)
 config = configparser.ConfigParser()
 if Path.exists(project_config):
     config.read(project_config)
-    REPORTS_SRC_DIR = config["DEFAULT"].get("REPORTS_SRC_DIR", REPORTS_SRC_DIR)
-    REPORTS_OUT_DIR = config["DEFAULT"].get("REPORTS_OUT_DIR", REPORTS_OUT_DIR)
+    REPORTS_SRC_DIR = Path(config["DEFAULT"].get("REPORTS_SRC_DIR", REPORTS_SRC_DIR))
+    if not REPORTS_SRC_DIR.is_absolute():
+        REPORTS_SRC_DIR = Path.joinpath(Path(__file__).resolve().parent.parent, REPORTS_SRC_DIR)
+    REPORTS_OUT_DIR = Path(config["DEFAULT"].get("REPORTS_OUT_DIR", REPORTS_OUT_DIR))
+    if not REPORTS_OUT_DIR.is_absolute():
+        REPORTS_OUT_DIR = Path.joinpath(Path(__file__).resolve().parent.parent, REPORTS_OUT_DIR)
 elif Path.exists(home_config):
     config.read(project_config)
     REPORTS_SRC_DIR = config["DEFAULT"].get("REPORTS_SRC_DIR", REPORTS_SRC_DIR)
     REPORTS_OUT_DIR = config["DEFAULT"].get("REPORTS_OUT_DIR", REPORTS_OUT_DIR)
-Path(REPORTS_SRC_DIR).mkdir(parents=True, exist_ok=True)
-Path(REPORTS_OUT_DIR).mkdir(parents=True, exist_ok=True)
-
+    #todo
+else:
+    REPORTS_SRC_DIR = Path(REPORTS_SRC_DIR)
+    REPORTS_OUT_DIR = Path(REPORTS_OUT_DIR)
+REPORTS_SRC_DIR.mkdir(parents=True, exist_ok=True)
+REPORTS_OUT_DIR.mkdir(parents=True, exist_ok=True)
+print(REPORTS_OUT_DIR)
 
 class AbstractReport(ABC):
     def __init__(self, title):
@@ -46,7 +54,9 @@ class AbstractReport(ABC):
     def save(self):
         if not self._html:
             raise ValueError("Cannot save a report that has not been compiled.")
-        with open(Path(REPORTS_OUT_DIR).joinpath(f"{self._title}.html"), 'w') as f:
+        report_dir = REPORTS_OUT_DIR.joinpath(self._title)
+        report_dir.mkdir()
+        with open(report_dir.joinpath("report.html"), "w") as f:
             f.write(self._html)
 
     def generate(self):
