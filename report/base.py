@@ -20,8 +20,13 @@ class AbstractReport(ABC):
             raise ValueError(
                 "Cannot regenerate a locked report. Set locked=True if you want to overwrite."
             )
-        self._title = title
         self._locked = locked
+        self._title = title
+        self._report_dir = REPORTS_OUT_DIR.joinpath(self._title)
+        if self._report_dir.exists():
+            # we are here -> it's not locked. Remove the directory.
+            shutil.rmtree(self._report_dir)
+        self._report_dir.mkdir()
         self._blocks = []
         self._html = None
 
@@ -43,12 +48,7 @@ class AbstractReport(ABC):
     def save(self):
         if not self._html:
             raise ValueError("Cannot save a report that has not been compiled.")
-        report_dir = REPORTS_OUT_DIR.joinpath(self._title)
-        if report_dir.exists():
-            # we are here -> it's not locked. Remove the directory.
-            shutil.rmtree(report_dir)
-        report_dir.mkdir()
-        with open(report_dir.joinpath("report.html"), "w") as f:
+        with open(self._report_dir.joinpath("report.html"), "w") as f:
             f.write(self._html)
 
     def generate(self):

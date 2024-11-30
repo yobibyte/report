@@ -14,6 +14,7 @@ dependencies = [
   "beartype",
   "black",
   "isort",
+  "coolname",
 ]
 
 [tool.setuptools.packages.find]

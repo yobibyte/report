@@ -97,6 +97,15 @@ wheels = [
 ]
 
 [[package]]
+name = "coolname"
+version = "2.2.0"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/c5/c6/1eaa4495ff4640e80d9af64f540e427ba1596a20f735d4c4750fe0386d07/coolname-2.2.0.tar.gz", hash = "sha256:6c5d5731759104479e7ca195a9b64f7900ac5bead40183c09323c7d0be9e75c7", size = 59006 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/1b/b1/5745d7523d8ce53b87779f46ef6cf5c5c342997939c2fe967e607b944e43/coolname-2.2.0-py2.py3-none-any.whl", hash = "sha256:4d1563186cfaf71b394d5df4c744f8c41303b6846413645e31d31915cdeb13e8", size = 37849 },
+]
+
+[[package]]
 name = "cycler"
 version = "0.12.1"
 source = { registry = "https://pypi.org/simple" }
@@ -405,6 +414,7 @@ source = { editable = "." }
 dependencies = [
     { name = "beartype" },
     { name = "black" },
+    { name = "coolname" },
     { name = "isort" },
     { name = "jinja2" },
     { name = "matplotlib" },
@@ -415,6 +425,7 @@ dependencies = [
 requires-dist = [
     { name = "beartype" },
     { name = "black" },
+    { name = "coolname" },
     { name = "isort" },
     { name = "jinja2" },
     { name = "matplotlib" },

@@ -1,4 +1,5 @@
-REPORT_TEMPLATE = """from report.base import AbstractReport
+REPORT_TEMPLATE = """from report import block
+from report.base import AbstractReport
 
 
 class Report(AbstractReport):
