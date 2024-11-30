@@ -11,6 +11,9 @@ dependencies = [
   "matplotlib",
   "numpy",
   "jinja2",
+  "beartype",
+  "black",
+  "isort",
 ]
 
 [tool.setuptools.packages.find]
