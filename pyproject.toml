@@ -1,3 +1,7 @@
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "report"
 version = "0.0.1"
@@ -8,6 +12,9 @@ dependencies = [
   "numpy",
   "jinja2",
 ]
+
+[tool.setuptools.packages.find]
+where = ["."]
 
 [project.scripts]
 report = "report.base:main"

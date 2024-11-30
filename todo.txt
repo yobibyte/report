@@ -12,8 +12,5 @@ create text blocks
 implement saving to html page
 --------------------
 unify all plots, provide a common config
--------
-fix the bug resulting from config paths being relative
-^^^ done for project-wide config, repeat for home, remove code repetition
 ------------
 add --overwrite flag
