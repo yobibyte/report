@@ -3,8 +3,4 @@ create image block
 --------------------
 create table block
 --------------------
-implement saving to html page
---------------------
 unify all plots, provide a common config
-------------
-add --overwrite flag
