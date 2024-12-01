@@ -4,3 +4,7 @@ unify all plots, provide a common config
 get rid of filepath.Path, use os.
 filepath makes everything ugly and more verbose than needed
 --------------------
+add an image block, it should take a file path to an image and embed it into a page
+--------------------
+update the image block above to download image from an url as well
+--------------------
