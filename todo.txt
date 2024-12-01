@@ -1,2 +1,6 @@
 --------------------
 unify all plots, provide a common config
+--------------------
+get rid of filepath.Path, use os.
+filepath makes everything ugly and more verbose than needed
+--------------------

@@ -30,7 +30,11 @@ class Report(AbstractReport):
             )
         )
 
+        # Add a link to the current file to the report.
+        self.add_block(block.H3("We can link files."))
+        self.add_block(block.File(__file__, self._report_dir))
+
 
 if __name__ == "__main__":
-    report = Report(title="text_figure_and_table")
+    report = Report(title="megareport")
     report.generate()
