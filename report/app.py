@@ -1,5 +1,6 @@
 """Use this to serve your report directory."""
 
+import argparse
 import os
 
 from flask import Flask, abort, render_template_string, send_file
@@ -27,5 +28,14 @@ def show_directory(req_path):
     return render_template_string(FILE_DIR_TEMPLATE, files=files)
 
 
+def serve_app():
+    parser = argparse.ArgumentParser(description="Run the Flask app")
+    parser.add_argument(
+        "--port", type=int, default=4242, help="Port to start the Flask app on"
+    )
+    args = parser.parse_args()
+    app.run(host="0.0.0.0", port=args.port, debug=True)
+
+
 if __name__ == "__main__":
-    app.run()
+    serve_app()

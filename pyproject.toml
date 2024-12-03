@@ -23,3 +23,4 @@ where = ["."]
 
 [project.scripts]
 report = "report.base:make_report_template"
+serve-reports = "report.app:serve_app"
