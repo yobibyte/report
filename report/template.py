@@ -77,3 +77,16 @@ TABLE_TEMPLATE = """
 </table>
 </p>
 """
+
+FILE_DIR_TEMPLATE = """
+<h1>File explorer</h1>
+<ul>
+{% for file in files %}
+<li>
+    <a href="{{ (request.path + '/' if request.path != '/' else '') + file }}">
+        {{ (request.path + '/' if request.path != '/' else '') + file }}
+    </a>
+</li>
+{% endfor %}
+</ul>
+"""

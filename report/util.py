@@ -1,4 +1,5 @@
 import configparser
+import os
 import subprocess
 from pathlib import Path
 
@@ -65,4 +66,9 @@ def get_src_out_dirs():
     # Create if directories do not exist.
     reports_src_dir.mkdir(parents=True, exist_ok=True)
     reports_out_dir.mkdir(parents=True, exist_ok=True)
+
+    # return abs paths
+    reports_src_dir = os.path.abspath(reports_src_dir)
+    reports_out_dir = os.path.abspath(reports_out_dir)
+
     return reports_src_dir, reports_out_dir

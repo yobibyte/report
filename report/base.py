@@ -1,4 +1,5 @@
 import argparse
+import os
 import re
 import shutil
 from abc import ABC, abstractmethod
@@ -22,11 +23,11 @@ class AbstractReport(ABC):
             )
         self._locked = locked
         self._title = title
-        self._report_dir = REPORTS_OUT_DIR.joinpath(self._title)
-        if self._report_dir.exists():
+        self._report_dir = os.path.join(REPORTS_OUT_DIR, self._title)
+        if os.path.exists(self._report_dir):
             # we are here -> it's not locked. Remove the directory.
             shutil.rmtree(self._report_dir)
-        self._report_dir.mkdir()
+        os.makedirs(self._report_dir)
         self._blocks = []
         self._html = None
 
@@ -48,7 +49,7 @@ class AbstractReport(ABC):
     def save(self):
         if not self._html:
             raise ValueError("Cannot save a report that has not been compiled.")
-        with open(self._report_dir.joinpath("report.html"), "w") as f:
+        with open(os.path.join(self._report_dir, "report.html"), "w") as f:
             f.write(self._html)
 
     def generate(self):
