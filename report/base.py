@@ -4,7 +4,6 @@ import re
 import shutil
 from abc import ABC, abstractmethod
 from datetime import datetime
-from pathlib import Path
 
 from jinja2 import Template
 
@@ -76,10 +75,10 @@ def make_report_template():
     template = Template(REPORT_TEMPLATE)
     report_code = template.render(title=title)
     date = datetime.now().strftime("%Y_%m_%d")
-    out_fpath = Path.joinpath(Path(REPORTS_SRC_DIR), f"{date}_{title}.py")
-    if out_fpath.exists():
+    out_fpath = os.path.join(REPORTS_SRC_DIR, f"{date}_{title}.py")
+    if os.path.exists(out_fpath):
         if args.overwrite:
-            Path.unlink(out_fpath)
+            shutil.rmtree(out_fpath)
         else:
             raise ValueError(
                 f"{out_fpath} already exists. Use --overwrite flag to overwrite."

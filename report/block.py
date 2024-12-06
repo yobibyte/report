@@ -1,7 +1,6 @@
 import os.path
 import shutil
 from abc import ABC, abstractmethod
-from pathlib import Path
 
 from coolname import generate_slug
 from jinja2 import Template
@@ -46,13 +45,13 @@ class H3(Header):
 
 
 class Fig(AbstractBlock):
-    def __init__(self, fig: Figure, dest_dir: str | Path):
+    def __init__(self, fig: Figure, dest_dir: str):
         # TODO(yobibyte): we should somehow get the directory automatically.
         # the user should not think about it.
-        Path(dest_dir).mkdir(parents=True, exist_ok=True)
+        os.makedirs(dest_dir, exist_ok=True)
 
         self._id = f"{generate_slug()}.png"
-        self._fname = Path(dest_dir).joinpath(self._id)
+        self._fname = os.path.join(dest_dir, self._id)
         fig.savefig(self._fname)
 
     def __str__(self) -> str:
@@ -62,15 +61,15 @@ class Fig(AbstractBlock):
 
 
 class File(AbstractBlock):
-    def __init__(self, file_path: str, dest_dir: str | Path, caption=""):
+    def __init__(self, file_path: str, dest_dir: str, caption=""):
         # TODO(yobibyte): we should somehow get the directory automatically.
         # the user should not think about it.
         self._caption = caption
 
-        Path(dest_dir).mkdir(parents=True, exist_ok=True)
+        os.makedirs(dest_dir, exist_ok=True)
 
         self._id = os.path.basename(file_path)
-        self._fname = Path(dest_dir).joinpath(self._id)
+        self._fname = os.path.join(dest_dir, self._id)
         shutil.copyfile(file_path, self._fname)
 
     def __str__(self) -> str:
