@@ -76,7 +76,7 @@ class File(AbstractBlock):
         if not self._fname:
             raise ValueError("You have to save the blocks before compiling a report.")
         link_name = self._caption if self._caption else self._id
-        return f"<a href='{self._id}'>{link_name}</a>"
+        return f"<p><a href='{self._id}'>{link_name}</a></p>"
 
 
 class Table(AbstractBlock):

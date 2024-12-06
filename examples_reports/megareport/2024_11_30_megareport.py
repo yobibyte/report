@@ -33,6 +33,11 @@ class Report(AbstractReport):
         # Add a link to the current file to the report.
         self.add_block(block.H3("We can link files."))
         self.add_block(block.File(__file__, self._report_dir))
+        self.add_block(
+            block.Paragraph(
+                "However, you don't have to link the source code, it is automatically added to the report!"
+            )
+        )
 
 
 if __name__ == "__main__":
