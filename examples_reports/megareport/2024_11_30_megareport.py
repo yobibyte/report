@@ -22,9 +22,12 @@ class Report(AbstractReport):
         plt.close(fig)
 
         # let's take first 20 rows
+        self.add_block(block.Paragraph("We can show tables (and use html tags to make some cells bold)."))
+        rows = self._iris.data[:20].tolist()
+        rows[0] = [f"{el}" if el_idx!=2 else f"<b>{el}</b>" for el_idx, el in enumerate(rows[0])]
         self.add_block(
             block.Table(
-                rows=self._iris.data[:20],
+                rows=rows,
                 header=self._iris["feature_names"],
                 caption="First 20 rows of Iris Dataset",
             )
@@ -35,7 +38,7 @@ class Report(AbstractReport):
         self.add_block(block.File(__file__, self._report_dir))
         self.add_block(
             block.Paragraph(
-                "However, you don't have to link the source code, it is automatically added to the report!"
+                "However, you don't have to link the source code, it is <b>automatically</b> added to the report!"
             )
         )
 
