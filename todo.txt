@@ -1,5 +1,3 @@
 --------------------
 unify all plots, provide a common config
 --------------------
-update the image block above to download image from an url as well
---------------------

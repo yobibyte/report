@@ -54,6 +54,14 @@ class Report(AbstractReport):
             )
         )
 
+        self.add_block(
+            block.Image(
+                image_uri="https://yobibyte.github.io/pics/socrat.png",
+                dest_dir=self._report_dir,
+                caption="You can also attach images from URLs!",
+            )
+        )
+
         # Add a link to the current file to the report.
         self.add_block(block.H3("We can link files."))
         self.add_block(block.File(__file__, self._report_dir))

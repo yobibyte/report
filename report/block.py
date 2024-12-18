@@ -1,5 +1,6 @@
 import os.path
 import shutil
+import urllib.request
 from abc import ABC, abstractmethod
 
 from coolname import generate_slug
@@ -94,9 +95,23 @@ class Table(AbstractBlock):
 
 class Image(File):
     def __init__(self, image_uri: str, dest_dir: str, caption: str = ""):
-        file_path = image_uri
-        # TODO check if uri is not a path, download the image, save, remove tmp file.
-        super().__init__(file_path=file_path, dest_dir=dest_dir, caption=caption)
+        """Image block.
+
+        Args:
+            image_uri: filepath or URL to an image.
+            dest_dir: where to save (for reports, select report._report_dir.
+            caption: caption to add, if empty, we will use a filename.
+        """
+        is_link = False
+        if not os.path.exists(image_uri):
+            is_link = True
+            # This means the uri is a link, download it.
+            tmp_fpath = generate_slug()
+            urllib.request.urlretrieve(image_uri, tmp_fpath)
+            image_uri = tmp_fpath
+        super().__init__(file_path=image_uri, dest_dir=dest_dir, caption=caption)
+        if is_link:
+            os.remove(image_uri)
 
     def __str__(self) -> str:
         if not self._fname:
