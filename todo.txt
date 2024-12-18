@@ -1,7 +1,5 @@
 --------------------
 unify all plots, provide a common config
 --------------------
-add an image block, it should take a file path to an image and embed it into a page
---------------------
 update the image block above to download image from an url as well
 --------------------

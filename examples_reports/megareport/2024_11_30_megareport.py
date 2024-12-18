@@ -1,3 +1,5 @@
+import os
+
 import matplotlib.pyplot as plt
 import numpy as np
 from sklearn.datasets import load_iris
@@ -22,14 +24,33 @@ class Report(AbstractReport):
         plt.close(fig)
 
         # let's take first 20 rows
-        self.add_block(block.Paragraph("We can show tables (and use html tags to make some cells bold)."))
+        self.add_block(
+            block.Paragraph(
+                "We can show tables (and use html tags to make some cells bold)."
+            )
+        )
         rows = self._iris.data[:20].tolist()
-        rows[0] = [f"{el}" if el_idx!=2 else f"<b>{el}</b>" for el_idx, el in enumerate(rows[0])]
+        rows[0] = [
+            f"{el}" if el_idx != 2 else f"<b>{el}</b>"
+            for el_idx, el in enumerate(rows[0])
+        ]
         self.add_block(
             block.Table(
                 rows=rows,
                 header=self._iris["feature_names"],
                 caption="First 20 rows of Iris Dataset",
+            )
+        )
+
+        self.add_block(block.H3("We can attach images."))
+        image_path = os.path.join(
+            os.path.dirname(os.path.realpath(__file__)), "code_example.png"
+        )
+        self.add_block(
+            block.Image(
+                image_uri=image_path,
+                dest_dir=self._report_dir,
+                caption="Your ad could be here!",
             )
         )
 

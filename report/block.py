@@ -90,3 +90,16 @@ class Table(AbstractBlock):
         return template.render(
             caption=self._caption, rows=self._rows, header=self._header
         )
+
+
+class Image(File):
+    def __init__(self, image_uri: str, dest_dir: str, caption: str = ""):
+        file_path = image_uri
+        # TODO check if uri is not a path, download the image, save, remove tmp file.
+        super().__init__(file_path=file_path, dest_dir=dest_dir, caption=caption)
+
+    def __str__(self) -> str:
+        if not self._fname:
+            raise ValueError("You have to save the blocks before compiling a report.")
+        link_name = self._caption if self._caption else self._id
+        return f"<p><figure><img src='{self._id}' alt='{link_name}'><figcaption>{link_name}</figcaption></figure></p>"
