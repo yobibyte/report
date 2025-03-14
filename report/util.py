@@ -1,6 +1,7 @@
 import configparser
 import os
 import subprocess
+import matplotlib.pyplot as plt
 
 CONFIG_FNAME = ".report"
 DEFAULT_REPORTS_SRC_DIRNAME = "reports_code"
@@ -36,6 +37,10 @@ def read_config(config_dir: str) -> tuple[str, str]:
     reports_out_dir = config["DEFAULT"].get("REPORTS_OUT_DIR", None)
     if reports_out_dir:
         reports_out_dir = get_absolute_path(reports_out_dir, config_dir)
+    matplotlib_stylefile = config["DEFAULT"].get("MATPLOTLIB_STYLE_FPATH", None)
+    if matplotlib_stylefile:
+        matplotlib_stylefile = get_absolute_path(matplotlib_stylefile, config_dir)
+        plt.style.use(matplotlib_stylefile)
     return reports_src_dir, reports_out_dir
 
 

@@ -43,6 +43,28 @@ Otherwise, if you are in a git repo and you have `.report` in the repo root, thi
 Finally, if none of the above worked, it will check in the home folder for the `.report` file and will use that.
 If none of the above worked, the default `reports_code` and `reports` will be used.
 
+You can also add a matplotlib style file that all reports will respect:
+```
+[DEFAULT]
+REPORTS_SRC_DIR=examples_src
+REPORTS_OUT_DIR=examples_reports
+MATPLOTLIB_STYLE_FPATH=examples_src/plots.mplstyle
+```
+
+Here is an example of my style file:
+```
+figure.titlesize:20
+figure.figsize:7.0,4.0
+figure.dpi:200
+xtick.labelsize:12
+ytick.labelsize:12
+lines.linewidth:3.0
+axes.labelsize:15
+legend.fontsize:15
+axes.grid:False
+image.cmap:Accent
+```
+
 ## Report's anatomy
 
 Report command generates a file with the following class:

@@ -1,3 +1,4 @@
 [DEFAULT]
 REPORTS_SRC_DIR=examples_src
 REPORTS_OUT_DIR=examples_reports
+MATPLOTLIB_STYLE_FPATH=examples_src/plots.mplstyle
