@@ -1,6 +1,7 @@
 import configparser
 import os
 import subprocess
+
 import matplotlib.pyplot as plt
 
 CONFIG_FNAME = ".report"

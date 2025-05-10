@@ -16,6 +16,7 @@ dependencies = [
   "isort",
   "coolname",
   "scikit-learn",
+  "ruff>=0.11.9",
 ]
 
 [tool.setuptools.packages.find]
