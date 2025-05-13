@@ -17,6 +17,7 @@ dependencies = [
   "coolname",
   "scikit-learn",
   "ruff>=0.11.9",
+  "flask",
 ]
 
 [tool.setuptools.packages.find]
