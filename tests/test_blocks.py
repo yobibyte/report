@@ -1,5 +1,5 @@
 import unittest
-
+import shutil
 import matplotlib.pyplot as plt
 
 from report import block
@@ -14,12 +14,12 @@ class TestBlocks(unittest.TestCase):
 
             def prepare(self):
                 plt.plot([1, 2, 3])
-                self.add_block(block.Fig(plt.gcf()))
+                self.add_block(block.Fig(plt.gcf(), self._report_dir))
 
         report = Report("test")
         report.prepare()
 
-        raise NotImplementedError("remove test dir")
+        shutil.rmtree(report._report_dir)
 
 
 if __name__ == "__main__":
