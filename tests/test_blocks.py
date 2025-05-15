@@ -1,5 +1,6 @@
-import unittest
 import shutil
+import unittest
+
 import matplotlib.pyplot as plt
 
 from report import block

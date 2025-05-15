@@ -1,6 +1,7 @@
 import argparse
 import inspect
 import os
+import uuid
 import re
 import shutil
 from abc import ABC, abstractmethod
@@ -13,16 +14,24 @@ from report.template import HTML_TEMPLATE, REPORT_TEMPLATE
 from report.util import get_src_out_dirs
 
 REPORTS_SRC_DIR, REPORTS_OUT_DIR = get_src_out_dirs()
-
+DEBUG_MODE = os.environ.get('DEBUG', True)
 
 class AbstractReport(ABC):
-    def __init__(self, title: str, attach_source: bool = True, locked: bool = False):
+    def __init__(
+        self,
+        title: str,
+        attach_source: bool = True,
+        locked: bool = False,
+    ):
         """Abstract report that every reports inherits/implements.
 
         Args:
             title: Report title.
             attach_source: If True (default), the report code will be attached at the end.
             locked: If locked, you cannot override the report. Used for safety.
+            debug: If debug, generate the report, but do not clean up the output folder,
+                   and do not save the generated report.
+                   Use this for interactive pdb-driven development and printing out stuff.
 
         Raises:
             ValueError: If report it locked, regenerating it fails.
@@ -33,12 +42,21 @@ class AbstractReport(ABC):
             )
         self._attach_source = attach_source
         self._locked = locked
+        if DEBUG_MODE:
+            # Add random stuff to the directory name no to destroy the existing, non-debug
+            # version of the report.
+            title = f"{title}_{uuid.uuid4().hex}"
         self._title = title
         self._report_dir = os.path.join(REPORTS_OUT_DIR, self._title)
-        if os.path.exists(self._report_dir):
-            # we are here -> it's not locked. Remove the directory.
+        
+        # I keep this check in case the title is not unique.
+        # This way we will crash at 'makedirs' call below.
+        if os.path.exists(self._report_dir) and not DEBUG_MODE:
+            # We are here -> it's not locked and we are not in the debug mode.
+            # Clean everything to generate a new version of the report.
             shutil.rmtree(self._report_dir)
         os.makedirs(self._report_dir)
+
         self._blocks = []
         self._html = None
 
@@ -77,6 +95,8 @@ class AbstractReport(ABC):
             )
         self.compile()
         self.save()
+        if DEBUG_MODE:
+            shutil.rmtree(self._report_dir)
 
 
 def make_report_template():
