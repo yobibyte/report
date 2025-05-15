@@ -124,6 +124,9 @@ if __name__ == "__main__":
 
 ```
 
+**Beware!** If you run the report file, it will overwrite the output directory and can remove your previous report version. Set locked=True in the constructor to throw an exception when attempting to overwrite.
+For day-to-day interactive development, run report file with `DEBUG=true` env variable. This will not overwrite you previous version, and this will remove all the report files at the end. You can test your report this way, check out the standard output, and pdb in it. If you pdb post `report.generate()`, you can inspect the report directory too!
+
 Check out [this link](https://yobibyte.github.io/report/report.html) to see how it looks.
 
 I understand that this is not for everyone, but I find this way of doing data analysis more superior and don't think I lost anything after I stopped using notebooks.
