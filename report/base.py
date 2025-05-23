@@ -14,7 +14,7 @@ from report.template import HTML_TEMPLATE, REPORT_TEMPLATE
 from report.util import get_src_out_dirs
 
 REPORTS_SRC_DIR, REPORTS_OUT_DIR = get_src_out_dirs()
-DEBUG_MODE = os.environ.get('DEBUG', True)
+DEBUG_MODE = os.environ.get('DEBUG', False)
 
 class AbstractReport(ABC):
     def __init__(
