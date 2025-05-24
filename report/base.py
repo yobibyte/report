@@ -1,9 +1,9 @@
 import argparse
 import inspect
 import os
-import uuid
 import re
 import shutil
+import uuid
 from abc import ABC, abstractmethod
 from datetime import datetime
 
@@ -14,7 +14,8 @@ from report.template import HTML_TEMPLATE, REPORT_TEMPLATE
 from report.util import get_src_out_dirs
 
 REPORTS_SRC_DIR, REPORTS_OUT_DIR = get_src_out_dirs()
-DEBUG_MODE = os.environ.get('DEBUG', False)
+DEBUG_MODE = os.environ.get("DEBUG", False)
+
 
 class AbstractReport(ABC):
     def __init__(
@@ -48,7 +49,7 @@ class AbstractReport(ABC):
             title = f"{title}_{uuid.uuid4().hex}"
         self._title = title
         self._report_dir = os.path.join(REPORTS_OUT_DIR, self._title)
-        
+
         # I keep this check in case the title is not unique.
         # This way we will crash at 'makedirs' call below.
         if os.path.exists(self._report_dir) and not DEBUG_MODE:
@@ -82,21 +83,24 @@ class AbstractReport(ABC):
             f.write(self._html)
 
     def generate(self):
-        self.load_data()
-        self.prepare()
-        if self._attach_source:
-            class_fname = inspect.getfile(self.__class__)
-            self.add_block(
-                File(
-                    class_fname,
-                    self._report_dir,
-                    caption="This report was generated with this code.",
+        try:
+            self.load_data()
+            self.prepare()
+            if self._attach_source:
+                class_fname = inspect.getfile(self.__class__)
+                self.add_block(
+                    File(
+                        class_fname,
+                        self._report_dir,
+                        caption="This report was generated with this code.",
+                    )
                 )
-            )
-        self.compile()
-        self.save()
-        if DEBUG_MODE:
-            shutil.rmtree(self._report_dir)
+            self.compile()
+            self.save()
+        finally:
+            # Cleanup the temporary directory.
+            if DEBUG_MODE:
+                shutil.rmtree(self._report_dir)
 
 
 def make_report_template():
