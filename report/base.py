@@ -70,6 +70,11 @@ class AbstractReport(ABC):
         pass
 
     def add_block(self, block: AbstractBlock):
+        """Add a block to the report.
+
+        Args:
+            block: Block to add.
+        """
         self._blocks.append(block)
 
     def compile(self):
@@ -83,6 +88,7 @@ class AbstractReport(ABC):
             f.write(self._html)
 
     def generate(self):
+        """Generate a report."""
         try:
             self.load_data()
             self.prepare()
